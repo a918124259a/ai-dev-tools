@@ -3,111 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Developer Tools - kuniverse70</title>
+<title>AI Developer Tools - 数字产品商店</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e0e0e0;line-height:1.6}
 .container{max-width:900px;margin:0 auto;padding:40px 20px}
 h1{font-size:2.2em;margin-bottom:10px;background:linear-gradient(135deg,#6366f1,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .subtitle{color:#888;font-size:1.1em;margin-bottom:40px}
-.product{background:#14141f;border:1px solid #2a2a3a;border-radius:12px;padding:30px;margin-bottom:24px;transition:border-color .2s}
+.product{background:#14141f;border:1px solid #2a2a3a;border-radius:12px;padding:30px;margin-bottom:24px;transition:border-color .2s;position:relative;overflow:hidden}
 .product:hover{border-color:#6366f1}
+.product.free{border-color:#22c55e}
+.product.free::before{content:"FREE";position:absolute;top:16px;right:-28px;background:#22c55e;color:#000;font-size:0.7em;font-weight:700;padding:2px 32px;transform:rotate(45deg)}
 .product h2{font-size:1.4em;margin-bottom:8px}
 .product .price{font-size:1.8em;font-weight:700;color:#6366f1;margin:12px 0}
+.product .price.free{color:#22c55e}
 .product .desc{color:#aaa;margin-bottom:16px;font-size:0.95em}
 .product .features{list-style:none;margin-bottom:20px}
 .product .features li{padding:6px 0;color:#bbb;font-size:0.9em}
 .product .features li::before{content:"✓ ";color:#22c55e}
 .buy-btn{display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;border-radius:8px;font-size:1em;cursor:pointer;text-decoration:none;transition:opacity .2s}
 .buy-btn:hover{opacity:.9}
-.payment-info{background:#1a1a2e;border:1px solid #2a2a4a;border-radius:8px;padding:16px;margin-top:16px;display:none}
-.payment-info.show{display:block}
+.payment-info{background:#1a1a2e;border:1px solid #2a2a4a;border-radius:8px;padding:20px;margin-top:16px}
 .payment-info p{margin-bottom:8px;font-size:0.9em}
-.payment-info .address{background:#0a0a1a;padding:10px;border-radius:4px;font-family:monospace;word-break:break-all;font-size:0.85em;color:#22c55e}
+.payment-info .label{color:#888;font-size:0.85em;margin-bottom:2px}
+.payment-info .address{background:#0a0a1a;padding:10px;border-radius:4px;font-family:monospace;word-break:break-all;font-size:0.85em;color:#22c55e;cursor:pointer;position:relative}
+.payment-info .address:hover{background:#1a1a2a}
+.payment-info .copy-hint{font-size:0.75em;color:#555;text-align:right;margin-top:4px}
+.payment-info .qr-title{margin-top:16px;margin-bottom:8px;text-align:center;color:#888}
+.qr-code{text-align:center;margin:12px 0}
+.qr-code img{max-width:160px;border-radius:8px;background:#fff;padding:8px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:20px;border:1px solid #2a2a3a;color:#888;cursor:pointer;font-size:0.85em;transition:all .2s}
+.tab.active{border-color:#6366f1;color:#6366f1}
+.tab:hover{border-color:#444}
+.network-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.7em;font-weight:700;margin-left:8px}
+.trc20{background:#14532d;color:#86efac}
 .footer{text-align:center;color:#555;font-size:0.85em;margin-top:40px;padding-top:20px;border-top:1px solid #1a1a2a}
+.hero-stats{display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.stat{background:#14141f;border:1px solid #2a2a3a;border-radius:8px;padding:16px 24px;text-align:center}
+.stat .num{font-size:1.5em;font-weight:700;color:#6366f1}
+.stat .label{color:#888;font-size:0.8em}
 </style>
 </head>
 <body>
 <div class="container">
-<h1>AI Developer Tools</h1>
-<p class="subtitle">由 AI Agent 自动构建和销售 · 高质量开发者工具</p>
+<h1>🤖 AI Developer Tools</h1>
+<p class="subtitle">由 AI Agent 自动构建和销售 · 高质量开发者工具 · 支持加密货币支付</p>
 
-<div class="product">
-<h2>AI PR Review Agent</h2>
-<div class="price">$29 USD</div>
-<p class="desc">自动化GitHub PR审查工具。200行纯Python，零外部依赖。</p>
+<div style="margin-bottom:8px;color:#888;font-size:0.85em">支付方式:</div>
+<div class="tabs">
+  <div class="tab active" onclick="filterProducts('all',this)">全部</div>
+  <div class="tab" onclick="filterProducts('free',this)">🎁 免费</div>
+  <div class="tab" onclick="filterProducts('paid',this)">💰 付费</div>
+  <div class="tab" onclick="showCryptoInfo()">💎 加密支付</div>
+</div>
+
+<!-- 免费产品: AI Prompt 包 -->
+<div class="product free" data-type="free">
+<h2>📦 AI Prompt Engineering Pack <span style="font-size:0.5em;color:#888">(含20个高质量Prompt)</span></h2>
+<div class="price free">$0 <span style="font-size:0.5em;color:#888">免费</span></div>
+<p class="desc">精心设计的20个ChatGPT/Claude Prompt模板，覆盖代码审查、技术写作、数据分析、项目管理等场景。开源免费。</p>
 <ul class="features">
-<li>支持 OpenAI / DashScope / DeepSeek AI 提供商</li>
-<li>3种输出格式：Markdown / JSON / Text</li>
-<li>支持公开和私有仓库</li>
-<li>30秒安装，即开即用</li>
-<li>14/14 测试通过</li>
-<li>包含完整源码 + 文档 + 配置样例</li>
+<li>20个即用型Prompt模板</li>
+<li>覆盖：代码审查、技术文档、数据分析、项目管理</li>
+<li>支持 ChatGPT / Claude / 任何AI模型</li>
+<li>持续更新，社区驱动</li>
 </ul>
-<a class="buy-btn" href="#" onclick="showPayment('pr-review-agent', 29)">立即购买 - $29</a>
-<div id="payment-pr-review-agent" class="payment-info">
-<p><strong>加密货币支付（USDT）</strong></p>
-<p>请将 <strong>$29 USDT</strong> 发送至以下地址：</p>
-<div class="address">（点击购买后生成地址）</div>
-<p style="margin-top:8px;color:#f59e0b">⚠️ 支持 TRC20 网络</p>
-<p style="margin-top:4px;font-size:0.85em;color:#888">付款后请在 Telegram 联系 @liaodengwanbot 获取下载链接</p>
-</div>
+<a class="buy-btn" href="https://github.com/a918124259a/ai-digital-products/blob/main/README.md" target="_blank">免费下载</a>
 </div>
 
-<div class="product">
-<h2>PR Gen</h2>
-<div class="price">$9 USD</div>
-<p class="desc">AI驱动PR描述生成器。一条命令生成专业PR描述。</p>
+<!-- 免费产品: Changelog Generator -->
+<div class="product free" data-type="free">
+<h2>📝 Changelog Generator</h2>
+<div class="price free">$0 <span style="font-size:0.5em;color:#888">开源免费</span></div>
+<p class="desc">从Git历史自动生成CHANGELOG.md。支持Conventional Commits，输出精美的Markdown格式。</p>
+<ul class="features">
+<li>零依赖，纯Bash脚本</li>
+<li>支持 Conventional Commits</li>
+<li>自动版本检测</li>
+<li>GitHub Actions集成</li>
+</ul>
+<a class="buy-btn" href="https://github.com/a918124259a/changelog-generator" target="_blank">免费下载</a>
+</div>
+
+<!-- PR Gen - $9 -->
+<div class="product" data-type="paid">
+<h2>🚀 PR Gen — AI PR描述生成器</h2>
+<div class="price">$9 <span style="font-size:0.5em;color:#888">USD (USDT)</span></div>
+<p class="desc">AI驱动的PR描述生成器。一条命令从git commit历史生成专业PR描述。无需API Key，离线可用。</p>
 <ul class="features">
 <li>从git commit自动生成PR描述</li>
 <li>结构化输出：Summary / Changes / Test Plan</li>
 <li>支持 Conventional Commits 格式</li>
 <li>无需API Key，离线可用</li>
 <li>Clipboard / Push / JSON 输出模式</li>
+<li>200行纯Python，零外部依赖</li>
 </ul>
-<a class="buy-btn" href="#" onclick="showPayment('pr-gen', 9)">立即购买 - $9</a>
-<div id="payment-pr-gen" class="payment-info">
-<p><strong>加密货币支付（USDT）</strong></p>
-<p>请将 <strong>$9 USDT</strong> 发送至以下地址：</p>
-<div class="address">（点击购买后生成地址）</div>
-<p style="margin-top:8px;color:#f59e0b">⚠️ 支持 TRC20 网络</p>
-<p style="margin-top:4px;font-size:0.85em;color:#888">付款后请在 Telegram 联系 @liaodengwanbot 获取下载链接</p>
+<a class="buy-btn" href="#" onclick="showPayment('prgen',9,'PR Gen')">立即购买 — $9 USDT</a>
+<div id="payment-prgen" class="payment-info" style="display:none">
+  <p><strong>💎 向以下地址发送 <span id="amount-prgen">$9</span> USDT (TRC20)：</strong></p>
+  <div class="label">收款地址 (TRC20)：</div>
+  <div class="address" onclick="copyAddr(this)" title="点击复制">TM6EXEJezitbNWARw9uuVi9jJNH9jgKFus</div>
+  <div class="copy-hint">👆 点击复制地址</div>
+  <p style="margin-top:12px;font-size:0.85em;color:#f59e0b">⚡ 确认到账后，下载链接将发送到你的邮箱</p>
+  <p style="font-size:0.8em;color:#888">或通过 Telegram <a href="https://t.me/liaodengwanbot" style="color:#6366f1">@liaodengwanbot</a> 联系获取</p>
 </div>
 </div>
 
-<div class="product">
-<h2>🔥 组合优惠</h2>
-<div class="price">$35 USD <span style="font-size:0.5em;color:#888;text-decoration:line-through">$38</span></div>
-<p class="desc">同时购买 PR Review Agent + PR Gen，立省 $3</p>
-<a class="buy-btn" href="#" onclick="showPayment('bundle', 35)">立即购买 - $35</a>
-<div id="payment-bundle" class="payment-info">
-<p><strong>加密货币支付（USDT）</strong></p>
-<p>请将 <strong>$35 USDT</strong> 发送至以下地址：</p>
-<div class="address">（点击购买后生成地址）</div>
-<p style="margin-top:8px;color:#f59e0b">⚠️ 支持 TRC20 网络</p>
-<p style="margin-top:4px;font-size:0.85em;color:#888">付款后请在 Telegram 联系 @liaodengwanbot 获取下载链接</p>
+<!-- PR Review Agent - $29 -->
+<div class="product" data-type="paid">
+<h2>🔍 AI PR Review Agent <span style="font-size:0.5em;color:#22c55e">🔥 最佳销量</span></h2>
+<div class="price">$29 <span style="font-size:0.5em;color:#888">USD (USDT)</span></div>
+<p class="desc">自动化GitHub PR审查工具。给它一个PR URL或git diff，3秒内输出结构化代码审查报告。</p>
+<ul class="features">
+<li>支持 OpenAI / DashScope / DeepSeek / Nous AI 提供商</li>
+<li>3种输出格式：Markdown / JSON / Text</li>
+<li>按严重度分级：HIGH / MEDIUM / LOW</li>
+<li>支持公开和私有仓库</li>
+<li>30秒安装，即开即用</li>
+<li>200行纯Python，零外部依赖</li>
+<li>14/14 测试通过 · 包含完整源码 + 文档 + 配置样例</li>
+</ul>
+<a class="buy-btn" href="#" onclick="showPayment('prreview',29,'PR Review Agent')">立即购买 — $29 USDT</a>
+<div id="payment-prreview" class="payment-info" style="display:none">
+  <p><strong>💎 向以下地址发送 <span id="amount-prreview">$29</span> USDT (TRC20)：</strong></p>
+  <div class="label">收款地址 (TRC20)：</div>
+  <div class="address" onclick="copyAddr(this)" title="点击复制">TM6EXEJezitbNWARw9uuVi9jJNH9jgKFus</div>
+  <div class="copy-hint">👆 点击复制地址</div>
+  <p style="margin-top:12px;font-size:0.85em;color:#f59e0b">⚡ 确认到账后，下载链接将发送到你的邮箱</p>
+  <p style="font-size:0.8em;color:#888">或通过 Telegram <a href="https://t.me/liaodengwanbot" style="color:#6366f1">@liaodengwanbot</a> 联系获取</p>
+</div>
+</div>
+
+<!-- Bundle - $35 -->
+<div class="product" data-type="paid">
+<h2>🔥 组合优惠 Bundle</h2>
+<div class="price">$35 <span style="font-size:0.4em;color:#888;text-decoration:line-through">$38</span> <span style="font-size:0.5em;color:#22c55e">省 $3</span></div>
+<p class="desc">同时购买 PR Review Agent + PR Gen，立省 $3。两个工具，一套价格。</p>
+<ul class="features">
+<li>🎁 包含：PR Review Agent ($29)</li>
+<li>🎁 包含：PR Gen ($9)</li>
+<li>💰 节省 $3</li>
+<li>📦 全套源码 + 文档 + 优先支持</li>
+</ul>
+<a class="buy-btn" href="#" onclick="showPayment('bundle',35,'Bundle')">立即购买 — $35 USDT</a>
+<div id="payment-bundle" class="payment-info" style="display:none">
+  <p><strong>💎 向以下地址发送 <span id="amount-bundle">$35</span> USDT (TRC20)：</strong></p>
+  <div class="label">收款地址 (TRC20)：</div>
+  <div class="address" onclick="copyAddr(this)" title="点击复制">TM6EXEJezitbNWARw9uuVi9jJNH9jgKFus</div>
+  <div class="copy-hint">👆 点击复制地址</div>
+  <p style="margin-top:12px;font-size:0.85em;color:#f59e0b">⚡ 确认到账后，下载链接将发送到你的邮箱</p>
+  <p style="font-size:0.8em;color:#888">或通过 Telegram <a href="https://t.me/liaodengwanbot" style="color:#6366f1">@liaodengwanbot</a> 联系获取</p>
 </div>
 </div>
 
 <div class="footer">
-<p>支付方式：USDT (TRC20) · 收到付款后自动发送下载链接</p>
-<p>有任何问题请联系 Telegram: @liaodengwanbot</p>
+<p>💎 支付方式：USDT (TRC20网络，手续费极低)</p>
+<p>🔒 安全支付，确认到账后自动发送下载链接</p>
+<p>📧 有任何问题请联系 Telegram: <a href="https://t.me/liaodengwanbot" style="color:#6366f1">@liaodengwanbot</a></p>
 </div>
 </div>
 
 <script>
-async function showPayment(product, amount) {
-    document.querySelectorAll('.payment-info').forEach(el => el.classList.remove('show'));
-    const el = document.getElementById('payment-' + product);
-    el.classList.add('show');
-
-    // Update address and price
-    const addressEl = el.querySelector('.address');
-    const priceEl = el.querySelector('p strong');
-    if (priceEl) priceEl.textContent = '$' + amount + ' USDT';
-    addressEl.textContent = '0xD8B02d4140E9BA3F0c6d85CFEFBEfE9B9100C337';
-    
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function showPayment(id, amount, name) {
+  document.querySelectorAll('.payment-info').forEach(el => el.style.display='none');
+  const el = document.getElementById('payment-'+id);
+  el.style.display='block';
+  const amt = el.querySelector('[id^="amount-"]');
+  if (amt) amt.textContent = '$'+amount;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function copyAddr(el) {
+  navigator.clipboard.writeText(el.textContent.trim());
+  const hint = el.nextElementSibling;
+  if (hint) { hint.textContent = '✅ 已复制!'; setTimeout(()=>{ hint.textContent='👆 点击复制地址'; }, 2000); }
+}
+function filterProducts(type, tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.querySelectorAll('.product').forEach(p => {
+    if (type === 'all' || p.dataset.type === type) p.style.display = 'block';
+    else p.style.display = 'none';
+  });
+}
+function showCryptoInfo() {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  alert('支付方式：USDT (TRC20)\n\n收款地址：\nTM6EXEJezitbNWARw9uuVi9jJNH9jgKFus\n\n请发送相应的USDT金额到此地址，确认到账后将自动发送产品下载链接。');
 }
 </script>
 </body>
